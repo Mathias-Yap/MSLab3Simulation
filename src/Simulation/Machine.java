@@ -132,9 +132,18 @@ public class Machine implements CProcess,ProductAcceptor
 		// Flag that the product has been rejected
 		else return false;
 	}
+
+	/**
+	 * TODO: take manhattan distance of patient and add a new event for processing
+	 */
+	private void pickup()
+	{
+
+	}
 	
 	/**
-	*	TODO: implement Erlang-3 distribution for processing times
+	*	TODO: implement Erlang-3 distribution for processing times instead of drawRandomExponential
+	 *
 	*/
 	private void startProduction()
 	{
@@ -172,4 +181,11 @@ public class Machine implements CProcess,ProductAcceptor
 		double res = -mean*Math.log(u);
 		return res;
 	}
+
+	/**
+	 * draw random erlang-3
+	 */
+	public static double drawErlang3(double lambda) {
+	return 0;
+}
 }

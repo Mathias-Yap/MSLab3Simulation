@@ -10,7 +10,11 @@ public class Hexagon {
     private double[] center;
     Path2D hexagon;
 
-
+    /**
+     * constructor
+     * creates a path2D object for the hexagon with 0,0 set at the bottom middle of the hexagon.
+     * @param diameter
+     */
     public Hexagon(double diameter) {
         this.diameter = diameter;
         //set the center so that 0,-5 is where the hospital is
@@ -83,9 +87,9 @@ public class Hexagon {
      */
     public double getDistanceCenter(double[] point) {
         double distance = 0;
-        //x distance from ambulance post to hospital
+        // x distance from ambulance post to hospital
         distance += Math.abs(center[0]-point[0]);
-        //y distance from ambulance post to hospital
+        // y distance from ambulance post to hospital
         distance += Math.abs(center[1]-point[1]);
         return distance;
     }
@@ -98,11 +102,11 @@ public class Hexagon {
      */
     public double getDistanceHospital(double[] point) {
         double distance = 0;
-        //x distance from patient to hospital
+        // x distance from patient to hospital
         distance += Math.abs(point[0]);
-        //y distance from patient to bottom of hexagon area
+        // y distance from patient to bottom of hexagon area
         distance += Math.abs(point[1]);
-        //y distance from bottom of hexagon area to hospital
+        // y distance from bottom of hexagon area to hospital
         distance += (Math.sqrt(3)*(diameter/2))/2;
         return distance;
     }

@@ -12,17 +12,26 @@ class Product
 	private ArrayList<Double> times;
 	private ArrayList<String> events;
 	private ArrayList<String> stations;
+
+	private double[] position;
+
+	private int hexagon;
 	
 	/** 
 	*	Constructor for the product
 	*	Mark the time at which it is created
+	 * @param position the position within the hexagon the patient originates from
+	 * @param hexagon the number of the hexagon the product is located in
 	*	@param create The current time
 	*/
-	public Product()
+	public Product(double[] position, int hexagon)
 	{
 		times = new ArrayList<>();
 		events = new ArrayList<>();
 		stations = new ArrayList<>();
+		this.position = position;
+		this.hexagon = hexagon;
+
 	}
 	
 	
@@ -47,6 +56,8 @@ class Product
 	{
 		return stations;
 	}
+
+	public double[] getPosition() { return position; }
 	
 	public double[] getTimesAsArray()
 	{

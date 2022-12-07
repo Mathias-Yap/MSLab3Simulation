@@ -1,5 +1,7 @@
 package Simulation;
 
+import java.util.Random;
+
 /**
  *	A source of products
  *	This class implements CProcess so that it can execute events.
@@ -21,6 +23,9 @@ public class Source implements CProcess
 	private double[] interarrivalTimes;
 	/** Interarrival time iterator */
 	private int interArrCnt;
+
+	//the hexagon we will be generating positions from
+	private Hexagon hexagon;
 
 	/**
 	*	Constructor, creates objects
@@ -47,8 +52,9 @@ public class Source implements CProcess
 	*	@param l	The eventlist that is requested to construct events
 	*	@param n	Name of object
 	*	@param m	Mean arrival time
+	 * @param diameter the diameter of the hexagon we will be generating from
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double m)
+	public Source(ProductAcceptor q,CEventList l,String n,double m, double diameter)
 	{
 		list = l;
 		queue = q;
@@ -56,6 +62,8 @@ public class Source implements CProcess
 		meanArrTime=m;
 		// put first event in list for initialization
 		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+		hexagon = new Hexagon(diameter);
+
 	}
 
 	/**
@@ -76,15 +84,22 @@ public class Source implements CProcess
 		interArrCnt=0;
 		// put first event in list for initialization
 		list.add(this,0,interarrivalTimes[0]); //target,type,time
+		hexagon = new Hexagon(10);
 	}
-	
-        @Override
+
+	/**
+	 *
+	 * @param type	The type of the event that has to be executed
+	 * @param tme	The current time
+	 */
+	@Override
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Arrival at time = " + tme);
+		System.out.println("arrival at time = " + tme);
 		// give arrived product to queue
-		Product p = new Product();
+		Random ran = new Random();
+		Product p = new Product(hexagon.getPoint(),ran.nextInt(7));
 		p.stamp(tme,"Creation",name);
 		queue.giveProduct(p);
 		// generate duration

@@ -250,6 +250,18 @@ public class Machine implements CProcess,ProductAcceptor
 	/**
 	 * draw random erlang-3
 	 */
+	public static double Erlangfct(double t,int n){
+
+		return Math.exp(-t)*(Math.pow(t,n-1))/fact(n-1);
+	}
+
+	public static int fact(int n){
+		if((n==1)||(n==0)){
+			return 0;
+		}
+		else return n*fact(n-1);
+	}
+
 	public static double drawErlang3() {
 	return 0;
 }

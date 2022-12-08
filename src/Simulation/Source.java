@@ -133,10 +133,15 @@ public class Source implements CProcess
 	}
 	/**
 	 * TODO: implement poisson process for interarrival times
-	 @param lambda the value for lambda that your poisson process follows
+	 @param t the value for time that your time varying poisson process follows
 	 @return a random value according to a poisson-3 process
 	 */
-	public static double drawRandomPoisson(double lambda) {
-		return 0;
-}
+	public static double poissonRate(double t) {
+		return 3-2*Math.sin((5*(Math.PI+t))/(6*Math.PI));
+	}
+	public static double drawRandomPoisson(double t){
+		double u = Math.random();
+
+		return poissonRate(t)*Math.exp(-poissonRate(t)*u);
+	}
 }

@@ -6,6 +6,7 @@
 
 package Simulation;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class Simulation {
@@ -20,7 +21,7 @@ public class Simulation {
         /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
     	// Create an eventlist
 	CEventList l = new CEventList();
 	// A queue for each outer hexagon. qC is the inner hexagon
@@ -91,7 +92,7 @@ public class Simulation {
 
 	// start the eventlist
 	l.start(100); // 2000 is maximum time
-
+        si.ToCSV();
     }
     
 }

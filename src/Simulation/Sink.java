@@ -83,7 +83,7 @@ public class Sink implements ProductAcceptor
 	}
 
 	public void ToCSV() throws FileNotFoundException {
-		mycsv=new File("ssa.csv");
+		mycsv=new File("ssacsv.csv");
 		PrintWriter csvwriter = new PrintWriter(mycsv);
 
 		for (int i=0;i<numbers.size();i++){

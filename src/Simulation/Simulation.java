@@ -80,11 +80,12 @@ public class Simulation {
     Machine m29 = new Machine(q6,si,l,"Machine 4 Hexagon 6");
     Machine m30 = new Machine(q6,si,l,"Machine 5 Hexagon 6");
 
-    Machine m31 = new Machine(qC,si,l,"Machine 1 Hexagon Center");
-    Machine m32 = new Machine(qC,si,l,"Machine 2 Hexagon Center");
-    Machine m33 = new Machine(qC,si,l,"Machine 3 Hexagon Center");
-    Machine m34 = new Machine(qC,si,l,"Machine 4 Hexagon Center");
-    Machine m35 = new Machine(qC,si,l,"Machine 5 Hexagon Center");
+        // ambulances in the center, the boolean edits travel times!
+    Machine m31 = new Machine(qC,si,l,"Machine 1 Hexagon Center", true);
+    Machine m32 = new Machine(qC,si,l,"Machine 2 Hexagon Center", true);
+    Machine m33 = new Machine(qC,si,l,"Machine 3 Hexagon Center", true);
+    Machine m34 = new Machine(qC,si,l,"Machine 4 Hexagon Center",true);
+    Machine m35 = new Machine(qC,si,l,"Machine 5 Hexagon Center",true);
 
 
 

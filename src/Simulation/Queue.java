@@ -10,7 +10,10 @@ import java.util.ArrayList;
 public class Queue implements ProductAcceptor
 {
 	/** List in which the products are kept */
-	private ArrayList<Product> row;
+	private ArrayList<Product> rowA1;
+	private ArrayList<Product> rowB;
+	private ArrayList<Product> rowA2;
+	
 	/** Requests from machine that will be handling the products */
 	private ArrayList<Machine> requests;
 	
@@ -20,7 +23,9 @@ public class Queue implements ProductAcceptor
 	*/
 	public Queue()
 	{
-		row = new ArrayList<>();
+		rowA1 = new ArrayList<>();
+		rowA2 = new ArrayList<>();
+		rowB = new ArrayList<>();
 		requests = new ArrayList<>();
 	}
 	
@@ -31,12 +36,32 @@ public class Queue implements ProductAcceptor
 	public boolean askProduct(Machine machine)
 	{
 		// This is only possible with a non-empty queue
-		if(row.size()>0)
+		if(rowA1.size()>0)
 		{
 			// If the machine accepts the product
-			if(machine.giveProduct(row.get(0)))
+			if(machine.giveProduct(rowA1.get(0)))
 			{
-				row.remove(0);// Remove it from the queue
+				rowA1.remove(0);// Remove it from the queue
+				return true;
+			}
+			else
+				return false; // Machine rejected; don't queue request
+		}
+		else if (rowB.size()>0)
+		{
+			if(machine.giveProduct(rowB.get(0)))
+			{
+				rowB.remove(0);// Remove it from the queue
+				return true;
+			}
+			else
+				return false; // Machine rejected; don't queue request
+		}
+		else if (rowA2.size()>0)
+		{
+			if(machine.giveProduct(rowA2.get(0)))
+			{
+				rowB.remove(0);// Remove it from the queue
 				return true;
 			}
 			else
@@ -57,7 +82,18 @@ public class Queue implements ProductAcceptor
 	{
 		// Check if the machine accepts it
 		if(requests.size()<1)
-			row.add(p); // Otherwise store it
+			switch(p.getPriority()){
+				case 1:
+					rowA1.add(p);
+					break;
+				case 2:
+					rowA2.add(p);
+					break;
+				case 3:
+					rowB.add(p);
+					break;
+			}
+			// storing in appropriate queue if need be
 		else
 		{
 			boolean delivered = false;
@@ -68,7 +104,18 @@ public class Queue implements ProductAcceptor
 				requests.remove(0);
 			}
 			if(!delivered)
-				row.add(p); // Otherwise store it
+			if(requests.size()<1)
+			switch(p.getPriority()){
+				case 1:
+					rowA1.add(p);
+					break;
+				case 2:
+					rowA2.add(p);
+					break;
+				case 3:
+					rowB.add(p);
+					break;
+			}
 		}
 		return true;
 	}

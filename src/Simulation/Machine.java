@@ -32,6 +32,8 @@ public class Machine implements CProcess,ProductAcceptor
 
 	/** hexagon used to calculated distances*/
 	private Hexagon hexagon;
+
+	private boolean center;
 	
 
 	/**
@@ -53,52 +55,21 @@ public class Machine implements CProcess,ProductAcceptor
 		queue.askProduct(this);
 		location = 0;
 		hexagon = new Hexagon(10);
+		center = false;
 	}
 
-	/**
-	*	Constructor
-	*        Service times are exponentially distributed with specified mean
-	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
-	*	@param n	The name of the machine
-	*        @param m	Mean processing time
-	*/
-	public Machine(Queue q, ProductAcceptor s, CEventList e, String n, double m)
+	public Machine(Queue q, ProductAcceptor s, CEventList e, String n, boolean c)
 	{
 		status='i';
 		queue=q;
 		sink=s;
 		eventlist=e;
 		name=n;
-		meanProcTime=m;
+		meanProcTime=30;
 		queue.askProduct(this);
 		location = 0;
 		hexagon = new Hexagon(10);
-	}
-	
-	/**
-	*	Constructor
-	*        Service times are pre-specified
-	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
-	*	@param n	The name of the machine
-	*        @param st	service times
-	*/
-	public Machine(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
-	{
-		status='i';
-		queue=q;
-		sink=s;
-		eventlist=e;
-		name=n;
-		meanProcTime=-1;
-		processingTimes=st;
-		procCnt=0;
-		queue.askProduct(this);
-		location = 0;
-		hexagon = new Hexagon(10);
+		center = true;
 	}
 
 	/**
@@ -121,15 +92,18 @@ public class Machine implements CProcess,ProductAcceptor
 
 			case 2:
 				product.stamp(tme,"drop off complete", name);
-				location = 1;
+
 				sink.giveProduct(product);
 				product=null;
 				status = 'i';
-
-				if(!queue.askProduct(this)) {
-					//drive back to the top of the hexagon if there is no patient waiting
-					eventlist.add(this, 3, tme + Math.sqrt(3) * 10);
-					status = 'b';
+				if(!center) {
+					//if the hexagon the ambulance serves is not the center one
+					location = 1;
+					if (!queue.askProduct(this)) {
+						//drive back to the top of the hexagon if there is no patient waiting
+						eventlist.add(this, 3, tme + Math.sqrt(3) * 10);
+						status = 'b';
+					}
 				}
 				System.out.println("drop off completed at time = " + tme);
 				break;
@@ -185,8 +159,22 @@ public class Machine implements CProcess,ProductAcceptor
 	private void startProduction()
 	{
 		double processTime = drawErlang3();
+		if(center) {
+			//if it is the center hexagon, the driving distance is different.
+			double tme = eventlist.getTime();
+			//add an arrival event
+			double tmeArr = tme+hexagon.getDistanceCenter(product.getPosition());
+			eventlist.add(this,0,tmeArr);
+			//add a processed event:
+			double tmeProc = tmeArr + processTime;
+			eventlist.add(this,1,tmeProc);
+			//add a drop off event
+			double tmeDrop = tmeProc + hexagon.getDistanceCenter(product.getPosition());
+			eventlist.add(this,2,tmeDrop);
+			status = 'b';
+		}
 		//the case where the ambulance is at the center of the hexagon
-		if(location == 0) {
+		else if(location == 0) {
 			double tme = eventlist.getTime();
 			//add an arrival event
 			double tmeArr = tme+hexagon.getDistanceCenter(product.getPosition());
@@ -197,9 +185,11 @@ public class Machine implements CProcess,ProductAcceptor
 			//add a drop off event
 			double tmeDrop = tmeProc + hexagon.getDistanceHospital(product.getPosition());
 			eventlist.add(this,2,tmeDrop);
+			status = 'b';
 		}
 		//the case where the ambulance is already at the hospital and moves straight to the patient
-		if(location == 1) {
+		else if(location == 1) {
+			status = 'b';
 			double tme = eventlist.getTime();
 			//add a pickup event
 			double tmeArr = tme+hexagon.getDistanceHospital(product.getPosition());
@@ -211,31 +201,6 @@ public class Machine implements CProcess,ProductAcceptor
 			double tmeDrop = tmeProc + hexagon.getDistanceHospital(product.getPosition());
 			eventlist.add(this,2,tmeDrop);
 		}
-		/*
-		// generate duration
-		if(meanProcTime>0)
-		{
-			double duration = drawRandomExponential(meanProcTime);
-			// Create a new event in the eventlist
-			double tme = eventlist.getTime();
-			eventlist.add(this,0,tme+duration); //target,type,time
-			// set status to busy
-			status='b';
-		}
-		else
-		{
-			if(processingTimes.length>procCnt)
-			{
-				eventlist.add(this,0,eventlist.getTime()+processingTimes[procCnt]); //target,type,time
-				// set status to busy
-				status='b';
-				procCnt++;
-			}
-			else
-			{
-				eventlist.stop();
-			}
-		} */
 	}
 
 	public static double drawRandomExponential(double mean)
@@ -263,6 +228,13 @@ public class Machine implements CProcess,ProductAcceptor
 	}
 
 	public static double drawErlang3() {
-	return 0;
+		double sum = 0;
+		double prod = 1;
+		for (int i = 0; i < 3; i++){
+			double rand = Math.random();
+			sum = sum + rand;
+			prod = prod * rand;
+		}
+	return -1* Math.log(prod);
 }
 }

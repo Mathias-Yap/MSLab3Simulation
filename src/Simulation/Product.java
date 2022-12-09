@@ -12,6 +12,7 @@ class Product
 	private ArrayList<Double> times;
 	private ArrayList<String> events;
 	private ArrayList<String> stations;
+	private int priority;
 
 	private double[] position;
 
@@ -31,6 +32,8 @@ class Product
 		stations = new ArrayList<>();
 		this.position = position;
 		this.hexagon = hexagon;
+		priority = 1 + (int)(Math.random() * ((3 - 1) + 1));
+
 
 	}
 	
@@ -82,5 +85,11 @@ class Product
 		String[] tmp = new String[stations.size()];
 		tmp = stations.toArray(tmp);
 		return tmp;
+	}
+
+
+	public int getPriority()
+	{
+		return priority;
 	}
 }

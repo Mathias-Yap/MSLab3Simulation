@@ -61,7 +61,7 @@ public class Source implements CProcess
 		name = n;
 		meanArrTime=m;
 		// put first event in list for initialization
-		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,0,drawRandomPoisson(meanArrTime)); //target,type,time
 		hexagon = new Hexagon(diameter);
 
 	}

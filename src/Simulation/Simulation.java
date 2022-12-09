@@ -27,14 +27,20 @@ public class Simulation {
 	Queue q = new Queue();
 	// A source
     double[] interArrT ={0.4};
-	Source s = new Source(q,l,"Source 1", interArrT);
+	Source s = new Source(q,l,"Source 1", 0.4, 10);
 	// A sink
 	Sink si = new Sink("Sink 1");
 	// A machine
     double[] serviceT ={2.0,0.7,0.2,1.1,3.7,0.6,4.0,4.0,4.0};
-    Machine m = new Machine(q,si,l,"Machine 1");
+    Machine m1 = new Machine(q,si,l,"Machine 1");
+    Machine m2 = new Machine(q,si,l,"Machine 2");
+    Machine m3 = new Machine(q,si,l,"Machine 3");
+    Machine m4 = new Machine(q,si,l,"Machine 4");
+    Machine m5 = new Machine(q,si,l,"Machine 5");
+    Machine m6 = new Machine(q,si,l,"Machine 6");
+    Machine m7 = new Machine(q,si,l,"Machine 7");
 	// start the eventlist
-	l.start(); // 2000 is maximum time
+	l.start(100); // 2000 is maximum time
 
     }
     

@@ -16,6 +16,7 @@ public class Sink implements ProductAcceptor
 	private ArrayList<String> events;
 	private ArrayList<String> stations;
 	/** Counter to number products */
+	private ArrayList<Integer> priority;
 	private int number;
 	/** Name of the sink */
 	private String name;
@@ -31,6 +32,7 @@ public class Sink implements ProductAcceptor
 		times = new ArrayList<>();
 		events = new ArrayList<>();
 		stations = new ArrayList<>();
+		priority = new ArrayList<>();
 		number = 0;
 	}
 	
@@ -49,6 +51,7 @@ public class Sink implements ProductAcceptor
 			times.add(t.get(i));
 			events.add(e.get(i));
 			stations.add(s.get(i));
+			priority.add(p.getPriority());
 		}
 		return true;
 	}

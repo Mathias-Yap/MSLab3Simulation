@@ -1,5 +1,8 @@
 package Simulation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 /**
  *	A sink
@@ -8,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Sink implements ProductAcceptor
 {
+	private File mycsv;
 	/** All products are kept */
 	private ArrayList<Product> products;
 	/** All properties of products are kept */
@@ -76,6 +80,17 @@ public class Sink implements ProductAcceptor
 			tmp[i] = (times.get(i)).doubleValue();
 		}
 		return tmp;
+	}
+
+	public void ToCSV() throws FileNotFoundException {
+		mycsv=new File("ssa.csv");
+		PrintWriter csvwriter = new PrintWriter(mycsv);
+
+		for (int i=0;i<numbers.size();i++){
+			csvwriter.write(numbers.get(i)+","+times.get(i)+","+events.get(i)+","+stations.get(i)+","+priority.get(i)+"\n");
+		}
+
+		csvwriter.close();
 	}
 
 	public String[] getEvents()

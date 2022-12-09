@@ -28,7 +28,19 @@ public class Queue implements ProductAcceptor
 		rowB = new ArrayList<>();
 		requests = new ArrayList<>();
 	}
-	
+
+	/**
+	 * returns true if there is a product in waiting, false if there is not.
+	 * @return
+	 */
+	public boolean peekProduct(){
+		if(rowA1.size()>0||rowA2.size()>0||rowB.size()>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	/**
 	*	Asks a queue to give a product to a machine
 	*	True is returned if a product could be delivered; false if the request is queued

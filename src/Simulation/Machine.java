@@ -99,19 +99,22 @@ public class Machine implements CProcess,ProductAcceptor
 				if(!center) {
 					//if the hexagon the ambulance serves is not the center one
 					location = 1;
-					if (!queue.askProduct(this)) {
+					if (!queue.peekProduct()) {
 						//drive back to the top of the hexagon if there is no patient waiting
 						eventlist.add(this, 3, tme + Math.sqrt(3) * 10);
 						status = 'b';
+					} else {
+						//if there is a patient waiting. ask for a patient
+						queue.askProduct(this);
 					}
 				}
 				System.out.println("drop off completed at time = " + tme);
 				break;
 
 			case 3:
-				product.stamp(tme,"drove back to post", name);
 				location = 0;
 				status = 'i';
+				queue.askProduct(this);
 				System.out.println("drove back to post at time = " + tme);
 		}
 

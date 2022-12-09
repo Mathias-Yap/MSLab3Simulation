@@ -105,7 +105,7 @@ public class Source implements CProcess
 		// generate duration
 		if(meanArrTime>0)
 		{
-			double duration = drawRandomExponential(meanArrTime);
+			double duration = drawRandomPoisson(meanArrTime);
 			// Create a new event in the eventlist
 			list.add(this,0,tme+duration); //target,type,time
 		}
@@ -142,6 +142,6 @@ public class Source implements CProcess
 	public static double drawRandomPoisson(double t){
 		double u = Math.random();
 
-		return poissonRate(t)*Math.exp(-poissonRate(t)*u);
+		return 60*poissonRate(t)*Math.exp(-poissonRate(t)*u);
 	}
 }

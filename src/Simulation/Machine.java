@@ -81,23 +81,24 @@ public class Machine implements CProcess,ProductAcceptor
 	{
 		switch	(type) {
 			case 0:
-				product.stamp(tme,"arrival complete",name);
+				product.stamp(tme,2,name);
 				System.out.println("arrival complete at time = " + tme);
 				break;
 
 			case 1:
-				product.stamp(tme,"processing complete", name);
+				product.stamp(tme,3, name);
 				System.out.println("processing complete at time = " + tme);
 				break;
 
 			case 2:
-				product.stamp(tme,"drop off complete", name);
+				product.stamp(tme,4, name);
 
 				sink.giveProduct(product);
 				product=null;
 				status = 'i';
-				if(!center) {
-					//if the hexagon the ambulance serves is not the center one
+				if(center) {queue.askProduct(this);}
+				else {
+				//if the hexagon the ambulance serves is not the center one
 					location = 1;
 					if (!queue.peekProduct()) {
 						//drive back to the top of the hexagon if there is no patient waiting
@@ -145,7 +146,7 @@ public class Machine implements CProcess,ProductAcceptor
 			// accept the product
 			product=p;
 			// mark starting time
-			product.stamp(eventlist.getTime(),"Pickup started",name);
+			product.stamp(eventlist.getTime(),1,name);
 			// start production
 			startProduction();
 			// Flag that the product has arrived

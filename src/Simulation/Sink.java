@@ -17,7 +17,7 @@ public class Sink implements ProductAcceptor
 	/** All properties of products are kept */
 	private ArrayList<Integer> numbers;
 	private ArrayList<Double> times;
-	private ArrayList<String> events;
+	private ArrayList<Integer> events;
 	private ArrayList<String> stations;
 	/** Counter to number products */
 	private ArrayList<Integer> priority;
@@ -47,7 +47,7 @@ public class Sink implements ProductAcceptor
 		products.add(p);
 		// store stamps
 		ArrayList<Double> t = p.getTimes();
-		ArrayList<String> e = p.getEvents();
+		ArrayList<Integer> e = p.getEvents();
 		ArrayList<String> s = p.getStations();
 		for(int i=0;i<t.size();i++)
 		{
@@ -82,8 +82,8 @@ public class Sink implements ProductAcceptor
 		return tmp;
 	}
 
-	public void ToCSV() throws FileNotFoundException {
-		mycsv=new File("ssacsv.csv");
+	public void ToCSV(String name) throws FileNotFoundException {
+		mycsv=new File(name);
 		PrintWriter csvwriter = new PrintWriter(mycsv);
 
 		for (int i=0;i<numbers.size();i++){

@@ -100,7 +100,7 @@ public class Source implements CProcess
 		// give arrived product to queue
 		Random ran = new Random();
 		Product p = new Product(hexagon.getPoint(),ran.nextInt(7));
-		p.stamp(tme,"Creation",name);
+		p.stamp(tme,0,name);
 		queue.giveProduct(p);
 		// generate duration
 		if(meanArrTime>0)

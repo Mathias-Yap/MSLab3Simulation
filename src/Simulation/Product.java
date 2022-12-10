@@ -10,7 +10,15 @@ class Product
 {
 	/** Stamps for the products */
 	private ArrayList<Double> times;
-	private ArrayList<String> events;
+
+	/**	event types:
+	 Creation = 0;
+	Pickup start = 1;
+	Ambulance arrives at patient = 2;
+	Patient processed = 3;
+	Patient dropped off = 4;*/
+
+	private ArrayList<Integer> events;
 	private ArrayList<String> stations;
 	private int priority;
 
@@ -38,7 +46,7 @@ class Product
 	}
 	
 	
-	public void stamp(double time,String event,String station)
+	public void stamp(double time,int event,String station)
 	{
 		times.add(time);
 		events.add(event);
@@ -50,7 +58,7 @@ class Product
 		return times;
 	}
 
-	public ArrayList<String> getEvents()
+	public ArrayList<Integer> getEvents()
 	{
 		return events;
 	}

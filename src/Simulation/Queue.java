@@ -73,7 +73,7 @@ public class Queue implements ProductAcceptor
 		{
 			if(machine.giveProduct(rowA2.get(0)))
 			{
-				rowB.remove(0);// Remove it from the queue
+				rowA2.remove(0);// Remove it from the queue
 				return true;
 			}
 			else
